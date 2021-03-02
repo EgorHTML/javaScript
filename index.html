@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container"></div>
+    <script>
+        const xhr =new XMLHttpRequest()
+const container = document.querySelector('.container')
+container.style.cursor = 'pointer'
+xhr.open('get','https://jsonplaceholder.typicode.com/users')
+xhr.send()
+xhr.addEventListener('load',renderUsers)
+let div
+function renderUsers(){
+    let fragment = document.createDocumentFragment()
+    let response = JSON.parse(xhr.responseText)
+    console.log(response)
+    response.forEach(user=>{
+         div = document.createElement('div')
+        div.textContent = user.name
+        div.classList.add('card')
+        div.id = user.id
+        fragment.appendChild(div)
+        container.appendChild(fragment)
+       
+    })
+    container.addEventListener('click',({target})=>{
+        if(target.classList.contains('card')){
+            id = target.id
+            let takeUser = response.filter((item)=>{
+               return item.id == id
+            })
+            
+           div.style.marginTop = '20px'
+           div.innerHTML = `
+           <div>Name: ${takeUser[0].name}</div>
+           <div>Id: ${takeUser[0].id}</div>
+           <div>username: ${takeUser[0].username}</div>
+           <div>email: ${takeUser[0].email}</div>
+           <div>${takeUser[0].address.street}</div>
+           `;
+        }
+    })
+    
+}
+    </script>
+</body>
+</html>
