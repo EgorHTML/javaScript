@@ -2,6 +2,7 @@
 const xhr =new XMLHttpRequest()
 const container = document.querySelector('.container')
 container.style.cursor = 'pointer'
+
 xhr.open('get','https://jsonplaceholder.typicode.com/users')
 xhr.send()
 xhr.addEventListener('load',renderUsers)
@@ -33,12 +34,15 @@ function renderUsers(){
 
            text.innerHTML = `
            <div>Name: ${takeUser[0].name}</div>
+           
            <div>Id: ${takeUser[0].id}</div>
+
            <div>username: ${takeUser[0].username}</div>
            <div>email: ${takeUser[0].email}</div>
            <div>${takeUser[0].address.street}</div>
            
            `;
+          
            const btn = document.createElement('div')
        btn.innerHTML = `<button class="btn">скрыть</button>`
        text.appendChild(btn)
@@ -52,6 +56,7 @@ function renderUsers(){
 // Add person
 const addBtn = document.querySelector('.btn-success')
 let form = document.forms.person
+
 addBtn.addEventListener('click',()=>{
     let namePerson = form.name.value
     let id = form.id.value
@@ -61,7 +66,7 @@ addBtn.addEventListener('click',()=>{
     if(!namePerson || !id || !userName || !email || !address){
         alert('введите значения')
     }else{
-        console.log(id)
+        text.remove()
         addPerson(namePerson,id,userName,email,address)
         form.name.value = ''
         form.id.value = ''
@@ -88,7 +93,6 @@ xhr.open('post','https://jsonplaceholder.typicode.com/users')
 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
 xhr.send(jsonObj)
 xhr.addEventListener('load',()=>{
-    console.log(xhr.responseText)
     let fragment = document.createDocumentFragment()
     text = document.createElement('div')
     let ObjParse = JSON.parse(jsonObj)
